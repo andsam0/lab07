@@ -23,6 +23,7 @@ class TestFunctionalLibrary {
 
     @Test
     void testTransform() {
+        
         assertEquals(
             // CHECKSTYLE: MagicNumber OFF
             List.of(5, 5, 5, 3, 4, 11, 10, 4, 3, 2, 7, 6, 10),
