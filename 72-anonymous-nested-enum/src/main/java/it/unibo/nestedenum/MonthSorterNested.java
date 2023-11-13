@@ -23,7 +23,7 @@ public final class MonthSorterNested implements MonthSorter {
         NOVEMBER(30),
         DECEMBER(31);
 
-        int monthDays;
+        private int monthDays;
 
         private Month(int days){
             this.monthDays = days;
@@ -34,20 +34,39 @@ public final class MonthSorterNested implements MonthSorter {
         }
 
         public static Month fromString(String passedMonth){
-            
-            return null;
-
+            Month matchedMonth = null;
+            for ( Month currentMonth : Month.values()) {
+                if(currentMonth.toString().contains(passedMonth.toUpperCase())){
+                    if(matchedMonth != null){
+                        throw new IllegalArgumentException("Ambiguous argument passed: " + passedMonth + " matches with both " 
+                        + matchedMonth + " and " + currentMonth + "\n");
+                    }
+                    matchedMonth = currentMonth;
+                }                
+            }
+            if(matchedMonth == null){
+                throw new IllegalArgumentException("Your passed argument doesn't match any month\n");
+            }
+            return matchedMonth;
         }
-        
     }
     @Override
     public Comparator<String> sortByDays() {
-        return null;
+        return new Comparator<String>(){
+            @Override
+            public int compare(String arg0, String arg1) {
+                return Integer.compare(Month.fromString(arg0).getDays(), Month.fromString(arg1).getDays());
+            }
+        };
     }
 
     @Override
     public Comparator<String> sortByOrder() {
-        return null;
+        return new Comparator<String>(){
+            @Override
+            public int compare(String arg0, String arg1) {
+                return Integer.compare(Month.fromString(arg0).ordinal(), Month.fromString(arg1).ordinal());
+            }
+        };    
     }
-    
 }
